@@ -77,23 +77,28 @@ public class TS_MAXQBFPT_INTESIFICATION<E> extends AbstractTS<Integer> {
 				if (verbose)
 					System.out.println("(Iter. " + i + ") BestSol = " + bestSol);
 			}
-			Boolean marcacao[] = new Boolean[ObjFunction.getDomainSize()];
-			for (int j = 0; j < ObjFunction.getDomainSize(); j++) {
-				marcacao[j] = new Boolean(false);
-			}
-			incumbentSol = new Solution<Integer>(bestSol);
-			for (int j = 0; j < qtd; j++) {
-				int imaior = 0;
-				for (int k = 0; k < ObjFunction.getDomainSize(); k++) {
-					if (marcacao[k]) imaior++;
-					if (!marcacao[k] && count[k] > count[imaior]) {
-						marcacao[k] = Boolean.TRUE;
-						imaior = k;
-					}
-				}
-				incumbentSol.add(imaior);
-			}
 			
+			if (i % 100 == 0) {
+				Boolean marcacao[] = new Boolean[ObjFunction.getDomainSize()];
+				for (int j = 0; j < ObjFunction.getDomainSize(); j++) {
+					marcacao[j] = new Boolean(false);
+				}
+				incumbentSol = new Solution<Integer>(bestSol);
+				for (int j = 0; j < qtd; j++) {
+					int imaior = 0;
+					while (marcacao[imaior]) imaior++;
+					for (int k = imaior + 1; k < ObjFunction.getDomainSize(); k++) {
+						if (!marcacao[k] && count[k] > count[imaior]) {
+							imaior = k;
+						}
+					}
+					marcacao[imaior] = Boolean.TRUE;
+
+					if (tripleElements[imaior].getAvailable()) {
+						incumbentSol.add(imaior);
+					}
+				}	
+			}
 		}
 
 		return bestSol;
@@ -234,6 +239,11 @@ public class TS_MAXQBFPT_INTESIFICATION<E> extends AbstractTS<Integer> {
 	public void updateCL() {
 
 		ArrayList<Integer> _CL = new ArrayList<Integer>();
+		
+		for (TripleElement te : this.tripleElements) {
+			te.setSelected(false);
+			te.setAvailable(true);
+		}
 
         if (this.incumbentSol != null) {
             for (Integer e : this.incumbentSol) {
@@ -407,7 +417,7 @@ public class TS_MAXQBFPT_INTESIFICATION<E> extends AbstractTS<Integer> {
 	public static void main(String[] args) throws IOException {
 
 		long startTime = System.currentTimeMillis();
-		TS_MAXQBFPT_INTESIFICATION tabusearch = new TS_MAXQBFPT_INTESIFICATION(0, 10000, "instances/qbf020",0.10);
+		TS_MAXQBFPT_INTESIFICATION tabusearch = new TS_MAXQBFPT_INTESIFICATION(5, 1000, "instances/qbf060",0.10);
 	
 		
 		
