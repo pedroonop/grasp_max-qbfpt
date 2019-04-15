@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public class QBF_Relax extends QBF {
 
-    private double[] sumCoefs;
+    protected double[] sumCoefs;
 
     public QBF_Relax(String filename) throws IOException {
         super(filename);
@@ -16,7 +16,7 @@ public class QBF_Relax extends QBF {
         sumCoefs();
     }
 
-    private void sumCoefs() {
+    protected void sumCoefs() {
         this.sumCoefs = new double[this.size];
 
         for (int x1 = 0; x1 < this.size; x1++) {
@@ -38,33 +38,11 @@ public class QBF_Relax extends QBF {
 
         return val;
     }
-    
+
     @Override
     protected Double evaluateContributionQBF(int i) {
 
-        return variables[i] * this.sumCoefs[i];
+        return this.sumCoefs[i];
     }
-    
-//    @Override
-//    public Double evaluateExchangeQBF(int in, int out) {
-//
-//        Double sum = 0.0;
-//
-//        if (in == out) {
-//            return 0.0;
-//        }
-//        if (variables[in] == 1) {
-//            return evaluateRemovalQBF(out);
-//        }
-//        if (variables[out] == 0) {
-//            return evaluateInsertionQBF(in);
-//        }
-//
-//        sum += evaluateContributionQBF(in);
-//        sum -= evaluateContributionQBF(out);
-//        sum -= (A[in][out] + A[out][in]);
-//
-//        return sum;
-//    }
 
 }

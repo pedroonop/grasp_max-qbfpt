@@ -309,7 +309,7 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
     public static void main(String[] args) throws IOException {
 
         long startTime = System.currentTimeMillis();
-        TS_MAXQBFPT tabusearch = new TS_MAXQBFPT(0, "instances/qbf020", 30, -1000);
+        TS_MAXQBFPT tabusearch = new TS_MAXQBFPT(5, "instances/qbf400", 30, 1000);
         for (Triple t : tabusearch.triples) {
             t.printTriple();
         }

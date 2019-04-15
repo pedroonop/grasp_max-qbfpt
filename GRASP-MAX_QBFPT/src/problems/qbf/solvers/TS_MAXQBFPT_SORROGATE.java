@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import problems.Evaluator;
 import problems.qbf.QBF_Inverse;
+import problems.qbf.QBF_Relax_Inverse;
 import solutions.Solution;
 
 /**
@@ -14,7 +15,7 @@ import solutions.Solution;
  */
 public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
 
-    private final int PORCENTAGEM = 30;
+    private final int PORCENTAGEM = 20;
     private boolean relax = false;
 
     /**
@@ -25,7 +26,7 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
     public TS_MAXQBFPT_SORROGATE(Integer tenure, String filename, Integer execTime, Integer conversionIte) throws IOException {
         super(tenure, filename, execTime, conversionIte);
 
-        this.relaxObjFunction = new QBF_Inverse(filename);
+        this.relaxObjFunction = new QBF_Relax_Inverse(filename);
     }
 
     @Override
@@ -78,17 +79,20 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
         // Selecionando os 15% melhores na troca
         candidatos = new ArrayList<>();
         for (Integer candIn : CL) {
+            Double d;
+            Double[] cand1 = new Double[2];
+            cand1[0] = candIn.doubleValue();
+            cand1[1] = Double.MAX_VALUE;
+
             for (Integer candOut : incumbentSol) {
-                Double[] cand1 = new Double[2];
-                Double[] cand2 = new Double[2];
+                d = relaxObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
 
-                cand1[0] = candIn.doubleValue();
-                cand2[0] = candOut.doubleValue();
-                cand1[1] = cand2[1] = relaxObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
-
-                candidatos.add(cand1);
-                candidatos.add(cand2);
+                if (d < cand1[1]) {
+                    cand1[1] = d;
+                }
             }
+
+            candidatos.add(cand1);
         }
         addBetter(_CL, candidatos);
 
@@ -98,11 +102,16 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
     }
 
     private void addBetter(ArrayList<Integer> _cl, List<Double[]> candidatos) {
-        Collections.sort(candidatos, (Double[] o1, Double[] o2) -> o1[1].compareTo(o2[1]) * -1);
+        Integer novoValor;
+        Collections.sort(candidatos, (Double[] o1, Double[] o2) -> o1[1].compareTo(o2[1]));
 
-        for (int i = 0; i < (int) ((candidatos.size() / 100D) * PORCENTAGEM); i++) {
-            if (!_cl.contains(candidatos.get(i)[0].intValue())) {
-                _cl.add(candidatos.get(i)[0].intValue());
+        int tamanho = (int) ((candidatos.size() / 100D) * PORCENTAGEM);
+
+        for (int i = 0; i < tamanho; i++) {
+            novoValor = candidatos.get(i)[0].intValue();
+
+            if (!_cl.contains(novoValor)) {
+                _cl.add(novoValor);
             }
         }
 
