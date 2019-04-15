@@ -244,7 +244,7 @@ public class QBF implements Evaluator<Integer> {
      * @return the variation of the objective function resulting from the
      * insertion.
      */
-    private Double evaluateContributionQBF(int i) {
+    protected Double evaluateContributionQBF(int i) {
 
         Double sum = 0.0;
 
