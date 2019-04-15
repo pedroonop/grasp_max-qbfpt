@@ -14,7 +14,7 @@ import solutions.Solution;
  */
 public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
 
-    private final int PORCENTAGEM = 40;
+    private final int PORCENTAGEM = 30;
     private boolean relax = false;
 
     /**
@@ -115,7 +115,7 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
     public static void main(String[] args) throws IOException {
 
         long startTime = System.currentTimeMillis();
-        TS_MAXQBFPT_SORROGATE tabusearch = new TS_MAXQBFPT_SORROGATE(5, "instances/qbf020", 30, 1000);
+        TS_MAXQBFPT_SORROGATE tabusearch = new TS_MAXQBFPT_SORROGATE(5, "instances/qbf400", 30, 1000);
 
         Solution<Integer> bestSol = tabusearch.solve();
         System.out.println("maxVal = " + bestSol);

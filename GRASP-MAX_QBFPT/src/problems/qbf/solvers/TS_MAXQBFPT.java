@@ -39,7 +39,7 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
      */
     public TS_MAXQBFPT(Integer tenure, String filename, Integer execTime, Integer conversionIte) throws IOException {
         super(new QBF_Inverse(filename), tenure, execTime, conversionIte);
-        
+
         generateTripleElements();
         generateTriples();
     }
@@ -135,7 +135,7 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
                     return te1.getIndex().compareTo(te2.getIndex());
                 }
             });
-            
+
             //novaTripla.printTriple();
             this.triples[u - 1] = novaTripla;
         }
@@ -177,6 +177,11 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
      */
     @Override
     public void updateCL() {
+
+        for (TripleElement te : this.tripleElements) {
+            te.setSelected(false);
+            te.setAvailable(true);
+        }
 
         ArrayList<Integer> _CL = new ArrayList<Integer>();
 
