@@ -12,63 +12,55 @@ import solutions.Solution;
 import triple.Triple;
 import triple.TripleElement;
 
-
-
 /**
  * Metaheuristic TS (Tabu Search) for obtaining an optimal solution to a QBF
- * (Quadractive Binary Function -- {@link #QuadracticBinaryFunction}).
- * Since by default this TS considers minimization problems, an inverse QBF
- *  function is adopted.
- * 
+ * (Quadractive Binary Function -- {@link #QuadracticBinaryFunction}). Since by
+ * default this TS considers minimization problems, an inverse QBF function is
+ * adopted.
+ *
  * @author ccavellucci, fusberti
  */
 public class TS_MAXQBFPT extends AbstractTS<Integer> {
-	
-	private final Integer fake = new Integer(-1);
 
-	
-	private TripleElement[] tripleElements;
-	
-	private Triple[] triples;
-	
-	/**
-	 * Constructor for the TS_QBF class. An inverse QBF objective function is
-	 * passed as argument for the superclass constructor.
-	 * 
-	 * @param tenure
-	 *            The Tabu tenure parameter.
-	 * @param iterations
-	 *            The number of iterations which the TS will be executed.
-	 * @param filename
-	 *            Name of the file for which the objective function parameters
-	 *            should be read.
-	 * @throws IOException
-	 *             necessary for I/O operations.
-	 */
-	public TS_MAXQBFPT(Integer tenure, Integer iterations, String filename) throws IOException {
-		super(new QBF_Inverse(filename), tenure, iterations);
-		generateTripleElements();
+    private final Integer fake = new Integer(-1);
+
+    private TripleElement[] tripleElements;
+
+    private Triple[] triples;
+
+    /**
+     * Constructor for the TS_QBF class.An inverse QBF objective function is
+     * passed as argument for the superclass constructor.
+     *
+     * @param tenure The Tabu tenure parameter.
+     * @param filename Name of the file for which the objective function
+     * parameters should be read.
+     * @throws IOException necessary for I/O operations.
+     */
+    public TS_MAXQBFPT(Integer tenure, String filename, Integer execTime, Integer conversionIte) throws IOException {
+        super(new QBF_Inverse(filename), tenure, execTime, conversionIte);
+        
+        generateTripleElements();
         generateTriples();
-	}
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
 	 * @see metaheuristics.tabusearch.AbstractTS#makeCL()
-	 */
-	@Override
-	public ArrayList<Integer> makeCL() {
+     */
+    @Override
+    public ArrayList<Integer> makeCL() {
 
-		ArrayList<Integer> _CL = new ArrayList<Integer>();
-		for (int i = 0; i < ObjFunction.getDomainSize(); i++) {
-			Integer cand = new Integer(i);
-			_CL.add(cand);
-		}
+        ArrayList<Integer> _CL = new ArrayList<Integer>();
+        for (int i = 0; i < ObjFunction.getDomainSize(); i++) {
+            Integer cand = new Integer(i);
+            _CL.add(cand);
+        }
 
-		return _CL;
+        return _CL;
 
-	}
-	
-	
-	 /**
+    }
+
+    /**
      * Linear congruent function l used to generate pseudo-random numbers.
      */
     public int l(int pi1, int pi2, int u, int n) {
@@ -107,7 +99,7 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
             return 1 + ((lU + 1) % n);
         }
     }
-    
+
     /**
      * That method generates a list of objects (Triple Elements) that represents
      * each binary variable that could be inserted into a prohibited triple
@@ -137,36 +129,37 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
             te2 = tripleElements[g(u - 1, n) - 1];
             te3 = tripleElements[h(u - 1, n) - 1];
             novaTripla = new Triple(te1, te2, te3);
-            
+
             Collections.sort(novaTripla.getElements(), new Comparator<TripleElement>() {
                 public int compare(TripleElement te1, TripleElement te2) {
                     return te1.getIndex().compareTo(te2.getIndex());
                 }
             });
+            
             //novaTripla.printTriple();
-            this.triples[u-1] = novaTripla;
+            this.triples[u - 1] = novaTripla;
         }
     }
-	
 
-	/* (non-Javadoc)
+
+    /* (non-Javadoc)
 	 * @see metaheuristics.tabusearch.AbstractTS#makeRCL()
-	 */
-	@Override
-	public ArrayList<Integer> makeRCL() {
+     */
+    @Override
+    public ArrayList<Integer> makeRCL() {
 
-		ArrayList<Integer> _RCL = new ArrayList<Integer>();
+        ArrayList<Integer> _RCL = new ArrayList<Integer>();
 
-		return _RCL;
+        return _RCL;
 
-	}
-	
-	/* (non-Javadoc)
+    }
+
+    /* (non-Javadoc)
 	 * @see metaheuristics.tabusearch.AbstractTS#makeTL()
-	 */
-	@Override
-	public ArrayDeque<Integer> makeTL() {
-		int n = ObjFunction.getDomainSize();
+     */
+    @Override
+    public ArrayDeque<Integer> makeTL() {
+        int n = ObjFunction.getDomainSize();
         ArrayDeque<Integer> _CL = new ArrayDeque<Integer>(n);
 
         for (TripleElement tripElem : this.tripleElements) {
@@ -177,15 +170,15 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
 
         return _CL;
 
-	}
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
 	 * @see metaheuristics.tabusearch.AbstractTS#updateCL()
-	 */
-	@Override
-	public void updateCL() {
+     */
+    @Override
+    public void updateCL() {
 
-		ArrayList<Integer> _CL = new ArrayList<Integer>();
+        ArrayList<Integer> _CL = new ArrayList<Integer>();
 
         if (this.incumbentSol != null) {
             for (Integer e : this.incumbentSol) {
@@ -217,118 +210,117 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
 
         this.CL = _CL;
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * This createEmptySol instantiates an empty solution and it attributes a
-	 * zero cost, since it is known that a QBF solution with all variables set
-	 * to zero has also zero cost.
-	 */
-	@Override
-	public Solution<Integer> createEmptySol() {
-		Solution<Integer> sol = new Solution<Integer>();
-		sol.cost = 0.0;
-		return sol;
-	}
+    /**
+     * {@inheritDoc}
+     *
+     * This createEmptySol instantiates an empty solution and it attributes a
+     * zero cost, since it is known that a QBF solution with all variables set
+     * to zero has also zero cost.
+     */
+    @Override
+    public Solution<Integer> createEmptySol() {
+        Solution<Integer> sol = new Solution<Integer>();
+        sol.cost = 0.0;
+        return sol;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * The local search operator developed for the QBF objective function is
-	 * composed by the neighborhood moves Insertion, Removal and 2-Exchange.
-	 */
-	@Override
-	public Solution<Integer> neighborhoodMove() {
+    /**
+     * {@inheritDoc}
+     *
+     * The local search operator developed for the QBF objective function is
+     * composed by the neighborhood moves Insertion, Removal and 2-Exchange.
+     */
+    @Override
+    public Solution<Integer> neighborhoodMove() {
 
-		Double minDeltaCost;
-		Integer bestCandIn = null, bestCandOut = null;
+        Double minDeltaCost;
+        Integer bestCandIn = null, bestCandOut = null;
 
-		minDeltaCost = Double.POSITIVE_INFINITY;
-		updateCL();
-		// Evaluate insertions
-		for (Integer candIn : CL) {
-			Double deltaCost = ObjFunction.evaluateInsertionCost(candIn, incumbentSol);
-			if (!TL.contains(candIn) || incumbentSol.cost+deltaCost < bestSol.cost) {
-				if (deltaCost < minDeltaCost) {
-					minDeltaCost = deltaCost;
-					bestCandIn = candIn;
-					bestCandOut = null;
-				}
-			}
-		}
-		// Evaluate removals
-		for (Integer candOut : incumbentSol) {
-			Double deltaCost = ObjFunction.evaluateRemovalCost(candOut, incumbentSol);
-			if (!TL.contains(candOut) || incumbentSol.cost+deltaCost < bestSol.cost) {
-				if (deltaCost < minDeltaCost) {
-					minDeltaCost = deltaCost;
-					bestCandIn = null;
-					bestCandOut = candOut;
-				}
-			}
-		}
-		// Evaluate exchanges
-		for (Integer candIn : CL) {
-			for (Integer candOut : incumbentSol) {
-				Double deltaCost = ObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
-				if ((!TL.contains(candIn) && !TL.contains(candOut)) || incumbentSol.cost+deltaCost < bestSol.cost) {
-					if (deltaCost < minDeltaCost) {
-						minDeltaCost = deltaCost;
-						bestCandIn = candIn;
-						bestCandOut = candOut;
-					}
-				}
-			}
-		}
-		// Implement the best non-tabu move
-		TL.poll();
-		if (bestCandOut != null) {
-			incumbentSol.remove(bestCandOut);
-			CL.add(bestCandOut);
-			TL.add(bestCandOut);
-		} else {
-			TL.add(fake);
-		}
-		TL.poll();
-		if (bestCandIn != null) {
-			incumbentSol.add(bestCandIn);
-			CL.remove(bestCandIn);
-			TL.add(bestCandIn);
-		} else {
-			TL.add(fake);
-		}
-		ObjFunction.evaluate(incumbentSol);
-		
-		return null;
-	}
+        minDeltaCost = Double.POSITIVE_INFINITY;
+        updateCL();
+        // Evaluate insertions
+        for (Integer candIn : CL) {
+            Double deltaCost = ObjFunction.evaluateInsertionCost(candIn, incumbentSol);
+            if (!TL.contains(candIn) || incumbentSol.cost + deltaCost < bestSol.cost) {
+                if (deltaCost < minDeltaCost) {
+                    minDeltaCost = deltaCost;
+                    bestCandIn = candIn;
+                    bestCandOut = null;
+                }
+            }
+        }
+        // Evaluate removals
+        for (Integer candOut : incumbentSol) {
+            Double deltaCost = ObjFunction.evaluateRemovalCost(candOut, incumbentSol);
+            if (!TL.contains(candOut) || incumbentSol.cost + deltaCost < bestSol.cost) {
+                if (deltaCost < minDeltaCost) {
+                    minDeltaCost = deltaCost;
+                    bestCandIn = null;
+                    bestCandOut = candOut;
+                }
+            }
+        }
+        // Evaluate exchanges
+        for (Integer candIn : CL) {
+            for (Integer candOut : incumbentSol) {
+                Double deltaCost = ObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
+                if ((!TL.contains(candIn) && !TL.contains(candOut)) || incumbentSol.cost + deltaCost < bestSol.cost) {
+                    if (deltaCost < minDeltaCost) {
+                        minDeltaCost = deltaCost;
+                        bestCandIn = candIn;
+                        bestCandOut = candOut;
+                    }
+                }
+            }
+        }
+        // Implement the best non-tabu move
+        TL.poll();
+        if (bestCandOut != null) {
+            incumbentSol.remove(bestCandOut);
+            CL.add(bestCandOut);
+            TL.add(bestCandOut);
+        } else {
+            TL.add(fake);
+        }
+        TL.poll();
+        if (bestCandIn != null) {
+            incumbentSol.add(bestCandIn);
+            CL.remove(bestCandIn);
+            TL.add(bestCandIn);
+        } else {
+            TL.add(fake);
+        }
+        ObjFunction.evaluate(incumbentSol);
 
-	/**
-	 * A main method used for testing the TS metaheuristic.
-	 * 
-	 */
-	public static void main(String[] args) throws IOException {
+        return null;
+    }
 
-		long startTime = System.currentTimeMillis();
-		TS_MAXQBFPT tabusearch = new TS_MAXQBFPT(0, 10000, "instances/qbf020");
-		for (Triple t : tabusearch.triples) {
-			t.printTriple();
-		}
-		
-		
-		Solution<Integer> bestSol = tabusearch.solve();
-		System.out.println("maxVal = " + bestSol);
-		long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		System.out.println("Time = "+(double)totalTime/(double)1000+" seg");
+    /**
+     * A main method used for testing the TS metaheuristic.
+     *
+     */
+    public static void main(String[] args) throws IOException {
 
-	}
+        long startTime = System.currentTimeMillis();
+        TS_MAXQBFPT tabusearch = new TS_MAXQBFPT(0, "instances/qbf020", 30, -1000);
+        for (Triple t : tabusearch.triples) {
+            t.printTriple();
+        }
 
-	@Override
-	public Solution<Integer> createRandomSol() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        Solution<Integer> bestSol = tabusearch.solve();
+        System.out.println("maxVal = " + bestSol);
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("Time = " + (double) totalTime / (double) 1000 + " seg");
+
+    }
+
+    @Override
+    public Solution<Integer> createRandomSol() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

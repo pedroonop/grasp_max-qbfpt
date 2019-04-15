@@ -109,16 +109,17 @@ public class QBF implements Evaluator<Integer> {
         Double vecAux[] = new Double[size];
 
         for (int i = 0; i < size; i++) {
+
             for (int j = 0; j < size; j++) {
                 aux += variables[j] * A[i][j];
             }
+
             vecAux[i] = aux;
             sum += aux * variables[i];
             aux = (double) 0;
         }
 
         return sum;
-
     }
 
     /*
