@@ -1,0 +1,8 @@
+fileName,alpha,construction,localSearch,valueConstruction,valueGRASP
+instances/qbf020,0.05,1,true,-102.0,-120.0
+instances/qbf040,0.05,1,true,-304.0,-328.0
+instances/qbf060,0.05,1,true,-489.0,-490.0
+instances/qbf080,0.05,1,true,-842.0,-843.0
+instances/qbf100,0.05,1,true,-1260.0,-1260.0
+instances/qbf200,0.05,1,true,-4020.0,-4020.0
+instances/qbf400,0.05,1,true,-11028.0,-11028.0
