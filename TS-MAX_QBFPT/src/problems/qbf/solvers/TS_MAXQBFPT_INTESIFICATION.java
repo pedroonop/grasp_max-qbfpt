@@ -21,7 +21,7 @@ import triple.TripleElement;
  * @author ccavellucci, fusberti
  * @param <E>
  */
-public class TS_MAXQBFPT_INTESIFICATION<E> extends AbstractTS<Integer> {
+public class TS_MAXQBFPT_INTESIFICATION extends AbstractTS<Integer> {
 
     private final Integer fake = new Integer(-1);
 
@@ -68,7 +68,7 @@ public class TS_MAXQBFPT_INTESIFICATION<E> extends AbstractTS<Integer> {
 
         tempoInicial = System.currentTimeMillis();
         iteracao = 1;
-        while ((((System.currentTimeMillis() - tempoInicial) / 1000) / 60) <= this.execTime) {
+        while ((((System.currentTimeMillis() - tempoInicial) / 1000.0) / 60.0) <= this.execTime) {
             iteracao++;
             iteracoesSemMelhora++;
             neighborhoodMove();
@@ -423,7 +423,7 @@ public class TS_MAXQBFPT_INTESIFICATION<E> extends AbstractTS<Integer> {
     public static void main(String[] args) throws IOException {
 
         long startTime = System.currentTimeMillis();
-        TS_MAXQBFPT_INTESIFICATION tabusearch = new TS_MAXQBFPT_INTESIFICATION(5, "instances/qbf020", 0.10, 30, 1000);
+        TS_MAXQBFPT_INTESIFICATION tabusearch = new TS_MAXQBFPT_INTESIFICATION(Integer.parseInt(args[0]), "instances/qbf" + args[1], 0.10, 30, 1000000);
 
         Solution<Integer> bestSol = tabusearch.solve();
         System.out.println("maxVal = " + bestSol);

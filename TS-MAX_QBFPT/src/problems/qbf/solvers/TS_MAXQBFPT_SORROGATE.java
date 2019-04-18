@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import problems.Evaluator;
-import problems.qbf.QBF_Inverse;
 import problems.qbf.QBF_Relax_Inverse;
 import solutions.Solution;
 
@@ -124,7 +124,7 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
     public static void main(String[] args) throws IOException {
 
         long startTime = System.currentTimeMillis();
-        TS_MAXQBFPT_SORROGATE tabusearch = new TS_MAXQBFPT_SORROGATE(5, "instances/qbf400", 30, 1000);
+        TS_MAXQBFPT_SORROGATE tabusearch = new TS_MAXQBFPT_SORROGATE(Integer.parseInt(args[0]), "instances/qbf" + args[1], 30, 1000000);
 
         Solution<Integer> bestSol = tabusearch.solve();
         System.out.println("maxVal = " + bestSol);

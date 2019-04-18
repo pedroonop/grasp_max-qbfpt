@@ -27,7 +27,9 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
     private TripleElement[] tripleElements;
 
     private Triple[] triples;
-
+    
+    private boolean first = true;
+    
     /**
      * Constructor for the TS_QBF class.An inverse QBF objective function is
      * passed as argument for the superclass constructor.
@@ -245,7 +247,9 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
 
         minDeltaCost = Double.POSITIVE_INFINITY;
         updateCL();
+        if (first) Collections.shuffle(CL);
         // Evaluate insertions
+        boolean flag = false;
         for (Integer candIn : CL) {
             Double deltaCost = ObjFunction.evaluateInsertionCost(candIn, incumbentSol);
             if (!TL.contains(candIn) || incumbentSol.cost + deltaCost < bestSol.cost) {
@@ -253,32 +257,51 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
                     minDeltaCost = deltaCost;
                     bestCandIn = candIn;
                     bestCandOut = null;
-                }
-            }
-        }
-        // Evaluate removals
-        for (Integer candOut : incumbentSol) {
-            Double deltaCost = ObjFunction.evaluateRemovalCost(candOut, incumbentSol);
-            if (!TL.contains(candOut) || incumbentSol.cost + deltaCost < bestSol.cost) {
-                if (deltaCost < minDeltaCost) {
-                    minDeltaCost = deltaCost;
-                    bestCandIn = null;
-                    bestCandOut = candOut;
-                }
-            }
-        }
-        // Evaluate exchanges
-        for (Integer candIn : CL) {
-            for (Integer candOut : incumbentSol) {
-                Double deltaCost = ObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
-                if ((!TL.contains(candIn) && !TL.contains(candOut)) || incumbentSol.cost + deltaCost < bestSol.cost) {
-                    if (deltaCost < minDeltaCost) {
-                        minDeltaCost = deltaCost;
-                        bestCandIn = candIn;
-                        bestCandOut = candOut;
+                    if (first && deltaCost < 0) {
+                    	flag = true;
+                    	break;
                     }
                 }
             }
+        }
+        
+        if (!flag) {        	
+            // Evaluate removals
+            for (Integer candOut : incumbentSol) {
+                Double deltaCost = ObjFunction.evaluateRemovalCost(candOut, incumbentSol);
+                if (!TL.contains(candOut) || incumbentSol.cost + deltaCost < bestSol.cost) {
+                    if (deltaCost < minDeltaCost) {
+                        minDeltaCost = deltaCost;
+                        bestCandIn = null;
+                        bestCandOut = candOut;
+                        if (first && deltaCost < 0) {
+                        	flag = true;
+                        	break;
+                        }
+                    }
+                }
+            }
+        }
+        if (!flag) {
+            // Evaluate exchanges
+        	boolean flag_ = false;
+            for (Integer candIn : CL) {
+            	if (flag_) break;
+                for (Integer candOut : incumbentSol) {
+                    Double deltaCost = ObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
+                    if ((!TL.contains(candIn) && !TL.contains(candOut)) || incumbentSol.cost + deltaCost < bestSol.cost) {
+                        if (deltaCost < minDeltaCost) {
+                            minDeltaCost = deltaCost;
+                            bestCandIn = candIn;
+                            bestCandOut = candOut;
+                            if (first && deltaCost < 0) {
+                            	flag_ = true;
+                            	break;
+                            }
+                        }
+                    }
+                }
+            }        	
         }
         // Implement the best non-tabu move
         TL.poll();
@@ -309,11 +332,7 @@ public class TS_MAXQBFPT extends AbstractTS<Integer> {
     public static void main(String[] args) throws IOException {
 
         long startTime = System.currentTimeMillis();
-        TS_MAXQBFPT tabusearch = new TS_MAXQBFPT(5, "instances/qbf400", 30, 1000);
-        for (Triple t : tabusearch.triples) {
-            t.printTriple();
-        }
-
+        TS_MAXQBFPT tabusearch = new TS_MAXQBFPT(Integer.parseInt(args[0]), "instances/qbf" + args[1], 30, 1000000);
         Solution<Integer> bestSol = tabusearch.solve();
         System.out.println("maxVal = " + bestSol);
         long endTime = System.currentTimeMillis();

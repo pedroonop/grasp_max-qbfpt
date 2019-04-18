@@ -228,7 +228,7 @@ public abstract class AbstractTS<E> {
 
         tempoInicial = System.currentTimeMillis();
         iteracao = 1;
-        while ((((System.currentTimeMillis() - tempoInicial) / 1000) / 60) <= this.execTime) {
+        while ((((System.currentTimeMillis() - tempoInicial) / 1000.0) / 60.0) <= this.execTime) {
             iteracao++;
             iteracoesSemMelhora++;
 
