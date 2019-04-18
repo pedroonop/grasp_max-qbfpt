@@ -1,0 +1,7 @@
+(Iter. 2) BestSol = Solution: cost=[-99.0], size=[9], elements=[17, 5, 4, 14, 1, 9, 8, 12, 0]
+(Iter. 167) BestSol = Solution: cost=[-100.0], size=[7], elements=[4, 11, 13, 16, 2, 9, 15]
+(Iter. 440) BestSol = Solution: cost=[-102.0], size=[7], elements=[14, 4, 2, 9, 11, 16, 15]
+(Iter. 497) BestSol = Solution: cost=[-107.0], size=[8], elements=[4, 6, 11, 2, 18, 16, 3, 14]
+(Iter. 499) BestSol = Solution: cost=[-109.0], size=[9], elements=[4, 6, 11, 2, 18, 16, 3, 14, 9]
+maxVal = Solution: cost=[-109.0], size=[9], elements=[4, 6, 11, 2, 18, 16, 3, 14, 9]
+Time = 27.863 seg

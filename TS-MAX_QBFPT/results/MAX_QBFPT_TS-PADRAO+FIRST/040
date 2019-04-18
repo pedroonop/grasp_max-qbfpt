@@ -1,0 +1,11 @@
+(Iter. 2) BestSol = Solution: cost=[-265.0], size=[17], elements=[8, 20, 14, 1, 25, 24, 19, 21, 37, 2, 3, 18, 29, 36, 4, 11, 28]
+(Iter. 22) BestSol = Solution: cost=[-278.0], size=[19], elements=[20, 24, 21, 37, 29, 36, 4, 11, 0, 6, 9, 12, 10, 22, 27, 15, 32, 7, 34]
+(Iter. 23) BestSol = Solution: cost=[-290.0], size=[18], elements=[20, 24, 21, 29, 36, 4, 11, 0, 6, 9, 12, 10, 22, 27, 15, 32, 7, 34]
+(Iter. 135) BestSol = Solution: cost=[-297.0], size=[18], elements=[36, 22, 4, 15, 32, 31, 11, 21, 23, 34, 35, 19, 9, 14, 24, 7, 1, 18]
+(Iter. 136) BestSol = Solution: cost=[-308.0], size=[19], elements=[36, 22, 4, 15, 32, 31, 11, 21, 23, 34, 35, 19, 9, 14, 24, 7, 1, 18, 2]
+(Iter. 137) BestSol = Solution: cost=[-312.0], size=[18], elements=[36, 22, 4, 15, 32, 31, 11, 21, 23, 34, 19, 9, 14, 24, 7, 1, 18, 2]
+(Iter. 138) BestSol = Solution: cost=[-318.0], size=[18], elements=[36, 4, 15, 32, 31, 11, 21, 23, 34, 19, 9, 14, 24, 7, 1, 18, 2, 25]
+(Iter. 139) BestSol = Solution: cost=[-334.0], size=[19], elements=[36, 4, 15, 32, 31, 11, 21, 23, 34, 19, 9, 14, 24, 7, 1, 18, 2, 25, 33]
+(Iter. 140) BestSol = Solution: cost=[-366.0], size=[20], elements=[36, 4, 15, 32, 31, 11, 21, 23, 34, 19, 9, 14, 24, 7, 1, 18, 2, 25, 33, 26]
+maxVal = Solution: cost=[-366.0], size=[20], elements=[36, 4, 15, 32, 31, 11, 21, 23, 34, 19, 9, 14, 24, 7, 1, 18, 2, 25, 33, 26]
+Time = 109.618 seg
