@@ -14,9 +14,6 @@ import triple.TripleElement;
 /**
  * Class that implements the GRASP specifications for solving the MAXQBFPT
  * problem.
- *
- * @author Jônatas Trabuco Belotti [jonatas.t.belotti@hotmail.com]
- * @author Felipe de Carvalho Pereira [felipe.pereira@students.ic.unicamp.br]
  */
 public class GRASP_MAXQBFPT extends GRASP_QBF {
 

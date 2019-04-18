@@ -3,9 +3,6 @@ package localSearch;
 /**
  * Class that defines whether this step of the local search is insertion,
  * removal, or exchange. It also defines which elements will participate.
- *
- * @author Jônatas Trabuco Belotti [jonatas.t.belotti@hotmail.com]
- * @author Felipe de Carvalho Pereira [felipe.pereira@students.ic.unicamp.br]
  */
 public class LocalSearchOperation {
 

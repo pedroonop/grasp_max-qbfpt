@@ -5,9 +5,6 @@ package alternativeConstruction;
  *
  * Defines an Alpha object to be used in Reactive Construction. Saves the Alpha
  * value along with its probability of being selected.
- *
- * @author Jônatas Trabuco Belotti [jonatas.t.belotti@hotmail.com]
- * @author Felipe de Carvalho Pereira [felipe.pereira@students.ic.unicamp.br]
  */
 public class ReactiveAlpha {
 
