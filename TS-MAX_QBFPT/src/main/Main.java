@@ -12,9 +12,6 @@ import solutions.Solution;
  *
  * Standard configuration: Alpha = 0.05 Construction mechanism = standard Local
  * search = first improvement
- *
- * @author Jônatas Trabuco Belotti [jonatas.t.belotti@hotmail.com]
- * @author Felipe de Carvalho Pereira [felipe.pereira@students.ic.unicamp.br]
  */
 public class Main {
 

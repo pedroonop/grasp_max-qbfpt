@@ -11,7 +11,7 @@ import solutions.Solution;
 
 /**
  *
- * @author Jônatas Trabuco Belotti [jonatas.t.belotti@hotmail.com]
+ *
  */
 public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
 

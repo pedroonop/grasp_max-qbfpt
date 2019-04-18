@@ -4,7 +4,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Jônatas Trabuco Belotti [jonatas.t.belotti@hotmail.com]
+ *
  */
 public class QBF_Relax_Inverse extends QBF_Relax {
 
