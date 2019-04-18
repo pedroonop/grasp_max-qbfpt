@@ -52,7 +52,7 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
             return;
         }
 
-        // Selecionando os 15% melhores na inserção pela função relaxada
+        // Selecionando os melhores na inserção pela função relaxada
         candidatos = new ArrayList<>();
         for (Integer candIn : CL) {
             Double[] cand = new Double[2];
@@ -64,7 +64,7 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
         }
         addBetter(_CL, candidatos);
 
-        // Selecionando os 15% melhores na remoção pela função relaxada
+        // Selecionando os melhores na remoção pela função relaxada
         candidatos = new ArrayList<>();
         for (Integer candOut : CL) {
             Double[] cand = new Double[2];
@@ -76,7 +76,7 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
         }
         addBetter(_CL, candidatos);
 
-        // Selecionando os 15% melhores na troca
+        // Selecionando os melhores na troca
         candidatos = new ArrayList<>();
         for (Integer candIn : CL) {
             Double d;
