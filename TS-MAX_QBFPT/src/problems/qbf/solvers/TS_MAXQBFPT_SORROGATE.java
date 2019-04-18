@@ -15,20 +15,48 @@ import solutions.Solution;
  */
 public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
 
+    /**
+     * Constant that defines the percentage of possible neighbors that will be
+     * selected to apply the actual objective function.
+     */
     private final int PORCENTAGEM = 20;
+
+    /**
+     * Flag that defines whether to use the relaxed function.
+     */
     private boolean relax = false;
 
     /**
-     * the objective function being optimized
+     * The objective relax function.
      */
     protected Evaluator<Integer> relaxObjFunction;
 
+    /**
+     * Constructor of the class that implements Tabu Search with Surrogate
+     * strategy.
+     *
+     * @param tenure Tabu list size.
+     * @param filename Local or complete path of the file with the coefficients
+     * of that instance of the problem.
+     * @param execTime Timeout in minutes for the execution of the algorithm.
+     * @param conversionIte Number of iterations without solution improvement
+     * until considering the convergence of the algorithm. If a negative value
+     * is used only the execution time will be considered as a stop criterion.
+     * @throws IOException Generates an exception if the file with the
+     * coefficients does not exist.
+     */
     public TS_MAXQBFPT_SORROGATE(Integer tenure, String filename, Integer execTime, Integer conversionIte) throws IOException {
         super(tenure, filename, execTime, conversionIte);
 
         this.relaxObjFunction = new QBF_Relax_Inverse(filename);
     }
 
+    /**
+     * It implements the local search among the neighbors, but applying the
+     * Surrogate strategy.
+     *
+     * @return the solution found.
+     */
     @Override
     public Solution<Integer> neighborhoodMove() {
         Solution<Integer> sol;
@@ -41,6 +69,10 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
         return sol;
     }
 
+    /**
+     * Updates the CL with only the best neighbors applied to the relaxed
+     * objective function.
+     */
     @Override
     public void updateCL() {
         List<Double[]> candidatos;
@@ -101,6 +133,12 @@ public class TS_MAXQBFPT_SORROGATE extends TS_MAXQBFPT {
 
     }
 
+    /**
+     * Adds the best candidates on the list if they are not on the list.
+     *
+     * @param _cl new CL.
+     * @param candidatos candidates to join CL.
+     */
     private void addBetter(ArrayList<Integer> _cl, List<Double[]> candidatos) {
         Integer novoValor;
         Collections.sort(candidatos, (Double[] o1, Double[] o2) -> o1[1].compareTo(o2[1]));
